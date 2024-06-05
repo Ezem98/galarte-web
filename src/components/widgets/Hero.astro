@@ -1,92 +1,67 @@
 ---
-import Image from '~/components/common/Image.astro';
-import Button from '~/components/ui/Button.astro';
-import type { CallToAction } from '~/types';
+import type { HeroPhoto } from '~/types';
 
 export interface Props {
   id?: string;
   title?: string;
+  titleStyle?: string;
   subtitle?: string;
+  subtitleStyle?: string;
   tagline?: string;
   content?: string;
-  actions?: string | CallToAction[];
+  photos?: string | HeroPhoto[];
   image?: string | any; // TODO: find HTMLElementProps
 }
 
-const {
-  id,
-  title = await Astro.slots.render('title'),
-  subtitle = await Astro.slots.render('subtitle'),
-  tagline,
-  content = await Astro.slots.render('content'),
-  actions = await Astro.slots.render('actions'),
-  image = await Astro.slots.render('image'),
-} = Astro.props;
+const { id } = Astro.props;
 ---
 
-<section class="relative md:-mt-[76px] not-prose" {...id ? { id } : {}}>
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="pt-0 md:pt-[76px] pointer-events-none"></div>
-    <div class="py-12 md:py-20">
-      <div class="text-center pb-10 md:pb-16 max-w-5xl mx-auto">
-        {
-          tagline && (
-            <p
-              class="text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase"
-              set:html={tagline}
-            />
-          )
-        }
-        {
-          title && (
-            <h1
-              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading dark:text-gray-200"
-              set:html={title}
-            />
-          )
-        }
-        <div class="max-w-3xl mx-auto">
-          {subtitle && <p class="text-xl text-muted mb-6 dark:text-slate-300" set:html={subtitle} />}
-          {
-            actions && (
-              <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4">
-                {Array.isArray(actions) ? (
-                  actions.map((action) => (
-                    <div class="flex w-full sm:w-auto">
-                      <Button {...(action || {})} class="w-full sm:mb-0" />
-                    </div>
-                  ))
-                ) : (
-                  <Fragment set:html={actions} />
-                )}
-              </div>
-            )
-          }
-        </div>
-        {content && <Fragment set:html={content} />}
-      </div>
-      <div>
-        {
-          image && (
-            <div class="relative m-auto max-w-5xl">
-              {typeof image === 'string' ? (
-                <Fragment set:html={image} />
-              ) : (
-                <Image
-                  class="mx-auto rounded-md w-full"
-                  widths={[400, 768, 1024, 2040]}
-                  sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
-                  loading="eager"
-                  width={1024}
-                  height={576}
-                  {...image}
-                />
-              )}
-            </div>
-          )
-        }
-      </div>
-    </div>
-  </div>
-</section>
+<div class="flex flex-col">
+  <section
+    class="grid grid-cols-[70%_30%] gap-[1.4rem] ml-auto justify-end mr-9 w-3/5 h-full relative"
+    {...id ? { id } : {}}
+  >
+    <article class="flex flex-col gap-10 h-full box-border justify-center">
+      <section class="flex flex-col self-start">
+        <h1 class="text-4xl md:text-8xl font-bold text-gray-900 dark:text-gray-100 tracking-wide translate-x-[.32em]">
+          GALERIA
+        </h1>
+        <p class="text-lg md:text-4xl tracking-wide text-gray-600 dark:text-gray-400 translate-x-60">
+          Aspira A Inspirar.
+        </p>
+      </section>
+      <section class="flex gap-2 justify-around">
+        <img
+          src="/hero-phot-2.jpeg"
+          alt=""
+          class="object-cover h-full w-72 rounded-lg shadow-lg hover:scale-105 transition-all"
+        />
+        <img
+          src="/hero-phot-3.jpg"
+          alt=""
+          class="object-cover h-full w-72 rounded-lg shadow-lg hover:scale-105 transition-all"
+        />
+      </section>
+    </article>
+    <article class="flex flex-col box-border justify-between">
+      <section class="flex">
+        <img
+          src="/hero-phot-1.jpg"
+          alt=""
+          class="object-cover h-[20rem] w-72 rounded-lg shadow-lg hover:scale-105 transition-all"
+        />
+      </section>
+      <section class="flex">
+        <img
+          src="/hero-phot-4.jpg"
+          alt=""
+          class="object-cover h-[17.2rem] w-72 rounded-lg shadow-lg hover:scale-105 transition-all"
+        />
+      </section>
+    </article>
+  </section>
+  <section class="flex ml-auto mr-6 py-2 gap-4 items-center hover:scale-95 transition-all cursor-pointer">
+    <h1 class="text-xl md:text-2xl font-semibold text-gray-900 dark:text-gray-100 tracking-wider">Explorar Más</h1>
+    <img src="/arrow-left.svg" alt="" class="h-5 w-20 invert rotate-180" />
+  </section>
+</div>
