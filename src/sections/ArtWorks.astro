@@ -33,43 +33,22 @@
 
   //Crear loader para las texturas
   var loader = new THREE.TextureLoader();
+  loader.crossOrigin = "";
 
   // cargar una imagen y crear la textura
-  var texture1 = loader.load(
-    "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_960_720.jpg"
-  );
-  var texture2 = loader.load(
-    "https://cdn.pixabay.com/photo/2024/05/30/10/38/woman-8798294_1280.jpg"
-  );
-  var texture3 = loader.load(
-    "https://cdn.pixabay.com/photo/2024/05/29/04/25/woman-8795132_1280.jpg"
-  );
-  var texture4 = loader.load(
-    "https://cdn.pixabay.com/photo/2024/05/31/06/43/apple-8799888_1280.jpg"
-  );
-  var texture5 = loader.load(
-    "https://cdn.pixabay.com/photo/2024/05/29/04/34/woman-8795178_1280.jpg"
-  );
-  var texture6 = loader.load(
-    "https://cdn.pixabay.com/photo/2024/05/29/04/32/ai-generated-8795165_1280.jpg"
-  );
+  var texture = loader.load("/images/texture.webp");
 
-  // Crear material para los cubos
-  var materials = [
-    new THREE.MeshBasicMaterial({ map: texture1 }),
-    new THREE.MeshBasicMaterial({ map: texture2 }),
-    new THREE.MeshBasicMaterial({ map: texture3 }),
-    new THREE.MeshBasicMaterial({ map: texture4 }),
-    new THREE.MeshBasicMaterial({ map: texture5 }),
-    new THREE.MeshBasicMaterial({ map: texture6 }),
-  ];
+  const material = new THREE.MeshBasicMaterial({
+    map: texture,
+    transparent: false,
+  });
 
   // Crear cubos y añadirlos a la escena
   var radius = 5; // radio del anillo
   var cubeScale = 2.5; // escala inicial de los cubos
 
   for (var i = 0; i < 6; i++) {
-    var cube = new THREE.Mesh(geometry, materials[i]);
+    var cube = new THREE.Mesh(geometry, material);
 
     // Calcular la posición en el anillo usando coordenadas polares
     var angle = (i * Math.PI) / 2; // dividir 2*PI en 6 partes

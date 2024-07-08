@@ -1,48 +1,17 @@
+---
+import Logo from "../components/Logo.astro";
+---
+
 <section
-  class="flex justify-center items-center relative animate-blurred-fade-in animate-duration-600"
+  class="flex justify-center items-start relative animate-blurred-fade-in animate-duration-600"
 >
-  <h1 id="blurred-text" class="text-white text-9xl font-bold opacity-75">
-    Galarte
-  </h1>
-  <h1
+  <article id="blurred-text" class="h-full w-full absolute top-[-22em]">
+    <Logo fill="#f8f8f8" />
+  </article>
+  <article
     id="title"
-    class="text-white text-9xl font-bold opacity-75 absolute -skew-x-6"
+    class="h-full w-full absolute top-[-21.5em] filter blur-md"
   >
-    Galarte
-  </h1>
+    <Logo fill="#454545" />
+  </article>
 </section>
-
-<style>
-  #blurred-text {
-    color: transparent;
-    text-shadow: 0 0 20px #fff;
-  }
-
-  #title {
-    border-width: 2px 2px 2px 8px;
-    border-color: #f3f3f3;
-    border-style: solid;
-  }
-
-  #title:after {
-    content: "";
-    position: absolute;
-    width: 50%;
-    height: 4px;
-    background-color: white;
-    top: -65%;
-    left: 15%;
-    transform: rotate(-45deg);
-  }
-
-  #title::before {
-    content: "";
-    position: absolute;
-    width: 50%;
-    height: 4px;
-    background-color: white;
-    top: -65%;
-    right: 14%;
-    transform: rotate(45deg);
-  }
-</style>
