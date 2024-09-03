@@ -1,0 +1,80 @@
+<section class="gallery flex justify-center h-full pt-[2%]">
+  <article
+    class="panel left border-y-2 border-black flex justify-center h-[87%] gap-12 items-center grow z-10 bg-[#f6f6f6]"
+  >
+    <img
+      src="/images/panel_lateral_1.webp"
+      alt=""
+      class="w-2/5 h-3/4 artwork"
+    />
+    <img
+      src="/images/panel_lateral_2.webp"
+      alt=""
+      class="w-2/5 h-3/4 artwork object-cover"
+    />
+  </article>
+  <article
+    class="flex justify-center items-center w-[65%] h-[87%] border-2 border-black gap-24"
+  >
+    <img
+      src="/images/panel_central_1.webp"
+      alt=""
+      class="w-2/5 h-3/4 artwork"
+    />
+    <img
+      src="/images/panel_central_1.webp"
+      alt=""
+      class="w-2/5 h-3/4 artwork"
+    />
+    <img
+      src="/images/panel_central_1.webp"
+      alt=""
+      class="w-2/5 h-3/4 artwork"
+    />
+  </article>
+  <article
+    class="panel right border-y-2 border-black flex justify-center h-[87%] gap-12 items-center grow z-10 bg-[#f6f6f6]"
+  >
+    <img
+      src="/images/panel_lateral_2.webp"
+      alt=""
+      class="w-2/5 h-3/4 artwork object-cover"
+    />
+    <img
+      src="/images/panel_lateral_1.webp"
+      alt=""
+      class="w-2/5 h-3/4 hover:transform:skew-x-0"
+    />
+  </article>
+</section>
+
+<style>
+  .gallery {
+    display: flex;
+    perspective: 1500px; /* Ajusta la perspectiva para controlar la profundidad */
+  }
+
+  .panel {
+    transition: transform 0.5s;
+  }
+
+  .left {
+    transform-origin: center right; /* Origina la transformación desde el borde izquierdo */
+    transform: rotateY(60deg); /* Rota el panel en el eje Y */
+  }
+
+  .right {
+    transform-origin: center left; /* Origina la transformación desde el borde izquierdo */
+    transform: rotateY(-60deg); /* Rota el panel en el eje Y */
+  }
+
+  img {
+    transition: 0.5s ease all;
+  }
+
+  img:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.5s ease all;
+  }
+</style>
