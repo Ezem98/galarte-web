@@ -28,6 +28,6 @@
     "@types/three": "^0.165.0"
   },
   "engines": {
-    "node": "16.x"
+    "node": "20.x"
   }
 }

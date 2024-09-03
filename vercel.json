@@ -1,7 +1,8 @@
 {
+  "framework": "astro",
   "functions": {
     "api/**/*.js": {
-      "runtime": "nodejs16.x"
+      "runtime": "nodejs20.x"
     }
   }
 }
