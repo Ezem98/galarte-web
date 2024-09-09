@@ -1,12 +1,75 @@
 ---
+import { ITEMS } from "@const/items";
 import Layout from "@layouts/Layout.astro";
 ---
 
 <Layout title="Galarte Web">
-  <main class="flex flex-col h-screen">
-    <span>SHOP</span>
-    <a href="/shop/1">1</a>
-    <!-- <Title /> -->
-    <!-- <ArtWorks /> -->
+  <main
+    class="bg-[#f6f6f6] h-full overflow-y-auto flex flex-col justify-between items-center"
+  >
+    <header class="border border-t-0 border-[#13151a] flex w-full">
+      <h3 class="uppercase font-medium text-center flex grow justify-end">
+        categorias
+      </h3>
+      <input
+        type="text"
+        placeholder="Buscar"
+        class="font-medium w-1/6 border-l border-[#13151a] box-border mx-4 placeholder:uppercase bg-transparent pl-4 focus:outline-none"
+      />
+    </header>
+    <astro-function data>
+      <div class="w-full grid grid-cols-4 gap-12 py-6 px-12">
+        {
+          ITEMS.slice(0, 8).map((item) => {
+            return (
+              <article class="h-[320px] justify-between">
+                <section class="flex justify-between items-start border border-[#13151a] p-4">
+                  <small class="text-center">{`00${item.id}`}</small>
+                  <img
+                    src="/images/panel_central_1.webp"
+                    alt="artist"
+                    class="h-72 w-64"
+                  />
+                  <button class="uppercase flex border border-[#13151a] justify-center items-center px-4 hover: transform: translate-x-1">
+                    +
+                  </button>
+                </section>
+                <section class="flex justify-between">
+                  <h4 class="uppercase text-lg font-medium">{item.name}</h4>
+                  <button class="uppercase flex border border-t-0 border-[#13151a] text-xs justify-center items-center px-4">
+                    Ver más
+                  </button>
+                </section>
+              </article>
+            );
+          })
+        }
+      </div>
+      <button
+        id="load-more"
+        class="uppercase flex border w-fit h-fit border-[#13151a] text-md justify-center items-center px-4 m-4"
+      >
+        Cargar más obras</button
+      >
+    </astro-function>
   </main>
+
+  <script>
+    class AstroFunciton extends HTMLElement {
+      constructor() {
+        super();
+
+        let sliceIndex = 8;
+
+        const addMoreItems = () => {
+          sliceIndex += 8;
+        };
+
+        const button = this.querySelector("#load-more");
+        button?.addEventListener("click", addMoreItems);
+      }
+    }
+
+    customElements.define("astro-function", AstroFunciton);
+  </script>
 </Layout>
