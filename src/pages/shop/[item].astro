@@ -1,7 +1,149 @@
 ---
+import Layout from "@layouts/Layout.astro";
+import { ITEMS, type Item } from "@const/items";
+import Footer from "@components/Footer.astro";
+
 const { item } = Astro.params;
+
+const itemInfo = ITEMS.find((i: Item) => i.id == parseInt(item ?? ""));
+
+if (!itemInfo) {
+  return Astro.redirect("/404");
+}
 ---
 
-<span>
-  {item}
-</span>
+<Layout title={`${itemInfo.name}`}>
+  <main class="grid grid-rows-[1fr_10%] w-full h-screen">
+    <section class="grid grid-cols-2 h-full place-items-center">
+      <section class="grid place-items-center w-full h-full relative">
+        <a
+          href="javascript:history.back()"
+          class="hover:scale-105 absolute text-6xl top-0 left-5">{"<"}</a
+        >
+        <img
+          src="/images/panel_central_1.webp"
+          alt="artist"
+          class="w-9/12 my-4 relative column-span-1 row-span-1"
+          style={`view-transition-name: item-${itemInfo.id}`}
+        />
+      </section>
+      <article
+        class="flex flex-col justify-between border-l border-primary w-full h-full py-8 px-4"
+      >
+        <div>
+          <section class="flex flex-col w-full items-start">
+            <h2 class="text-4xl font-bold text-center uppercase">
+              {itemInfo.name}
+            </h2>
+            <small class="text-lg text-center uppercase"
+              >{itemInfo.author}</small
+            >
+          </section>
+          <h1 class="text-start text-5xl mt-8 text-secondary font-bold">
+            ${itemInfo.price.toFixed(2)}
+          </h1>
+          <small class="uppercase mt-4">Pagá en 3 y 6 cuotas sin interés</small>
+          <section class="flex flex-col">
+            <div class="flex w-2/5 justify-between mt-6">
+              <section class="flex h-8 w-fit justify-start">
+                <button
+                  class="h-full px-3 py-1 bg-primary text-light text-balance"
+                  >-</button
+                >
+                <span
+                  class="h-full border-y border-primary px-3 py-1 text-balance"
+                  >1</span
+                >
+                <button class="px-3 py-1 bg-primary text-light text-balance"
+                  >+</button
+                >
+              </section>
+              <button
+                class="hover:scale-105 uppercase text-sm font-semibold border border-primary px-3 py-1"
+                >Agregar al carrito</button
+              >
+            </div>
+            <div class="flex w-2/5 mt-2 justify-end">
+              <button class="underline">Ver carrito</button>
+            </div>
+          </section>
+        </div>
+        <div>
+          <section class="grid grid-cols-[20%_1fr]">
+            <section class="h-full w-full">
+              <ul class="flex flex-col gap-y-4 uppercase text-sm">
+                <li class="flex flex-col">
+                  <span>Técnica:</span>
+                  <span>{itemInfo.technique}</span>
+                </li>
+                <li class="flex flex-col">
+                  <span>Dimensiones:</span>
+                  <span>{itemInfo.size.height} x {itemInfo.size.width} cm</span>
+                </li>
+                <li class="flex flex-col">
+                  <span>Año:</span>
+                  <span>{itemInfo.year}</span>
+                </li>
+                <li class="flex flex-col">
+                  <span>Edición:</span>
+                  <span>{itemInfo.edition}</span>
+                </li>
+                <li class="flex flex-col">
+                  <span>Firma:</span>
+                  <span>{itemInfo.signature}</span>
+                </li>
+                <li class="flex flex-col">
+                  <span>Enmarcado:</span>
+                  <span
+                    >{
+                      itemInfo.framed ? "Marco incluido" : "Marco no incluido"
+                    }</span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section>
+              <h4 class="uppercase text-md font-semibold">
+                Acerca del artista:
+              </h4>
+              <p
+                id="about-author"
+                class="text-justify w-5/6 tracking-wide leading-relaxed"
+              >
+                Nació en Buenos Aires, en 1990. Su investigación artística se
+                nutre de la conexión con la naturaleza y la espiritualidad,
+                influenciada por su crianza en las afueras de Buenos Aires y un
+                interés por las filosofías orientales, el esoterismo, la
+                astrología, las cosmovisiones indígenas y las prácticas
+                espirituales como la meditación y el yoga. Ha participado en
+                diversas muestras individuales y colectivas, explorando
+                temáticas como el misticismo, las fuerzas de la naturaleza y la
+                sabiduría vegetal a través del dibujo, el grabado, la cerámica y
+                la instalación. Estudió Artes Visuales en la UMSA,
+                especializándose en grabado y en los talleres Eduardo Stupía,
+                Maricel Nowacki, Andrés Sorbino y Sebastián Bruno, Malena Pizani
+                y Laura Códega. En el 2022 quedó seleccionada en el programa AxA
+                de Fundación El Mirador. Desde el 2012 participa en el mundo de
+                la autoedición, los fanzines y el arte impreso. Entre sus
+                proyectos editoriales se encuentran: "El observador silencioso"
+                (2019) editado por Wai Cómics, "Antes del fuego, el agua"
+                (2019), "El fin del mundo" (2020),
+              </p>
+            </section>
+          </section>
+        </div>
+      </article>
+    </section>
+    <section
+      class="border-t border-primary h-full w-full row-span-2 column-span-2 grid place-items-center"
+    >
+      <Footer />
+    </section>
+  </main>
+</Layout>
+
+<style>
+  #about-author {
+    font-family: "BankPrinter", sans-serif !important;
+  }
+</style>

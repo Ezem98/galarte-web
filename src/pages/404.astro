@@ -1,0 +1,15 @@
+---
+//crea una pagina basica de 404
+//con un boton para volver a la pagina principal
+
+//importamos el layout
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout title="404">
+  <main class="flex flex-col items-center justify-center h-screen">
+    <h1 class="text-4xl font-bold">404</h1>
+    <p class="text-lg">Pagina no encontrada</p>
+    <a href="/" class="text-lg underline">Volver a la pagina principal</a>
+  </main>
+</Layout>

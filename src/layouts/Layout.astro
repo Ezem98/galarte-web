@@ -22,6 +22,9 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/images/favicon_light.png" />
     <title>{title}</title>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@galarte" />
+    <meta name="view-transition" content="same-origin" />
   </head>
   <body class="flex flex-col">
     <Header />
@@ -29,6 +32,14 @@ const { title } = Astro.props;
   </body>
 </html>
 <style is:global>
+  @font-face {
+    font-family: "BankPrinter";
+    src: url("/fonts/F25_Bank_Printer.ttf") format("ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
   html {
     font-family: "JetBrains Mono", monospace;
     color: #13151a;
@@ -49,4 +60,39 @@ const { title } = Astro.props;
     background-repeat: no-repeat;
     background-size: cover;
   }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
 </style>
+
+<!-- <script>
+  if (document.startViewTransition) {
+    window.navigation.addEventListener("navigate", (event: any) => {
+      const toUrl = new URL(event.destination.url);
+
+      //si es una pagina externa no se ejecuta el script
+      if (toUrl.origin !== location.origin) return;
+
+      //si es la pagina de shop se ejecuta el script
+      event.intercept({
+        async handler() {
+          //carga la pagina de destino
+          //usando fetch
+          const response = await fetch(toUrl.pathname);
+          const html = await response.text();
+          //tomamos solo el contenido del body con regex
+          const [, data] = html.match(/<body>([\s\S]*)<\/body>/i);
+
+          //utilizamos la api de View Transition API
+          document.startViewTransition(() => {
+            document.body.innerHTML = data;
+            document.documentElement.scrollTop = 0;
+          });
+        },
+      });
+    });
+  }
+</script> -->
