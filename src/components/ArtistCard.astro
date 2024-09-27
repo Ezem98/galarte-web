@@ -1,0 +1,17 @@
+---
+const { imageUrl, artistName, artistInfo } = Astro.props;
+---
+
+<article class="flex p-8 border border-r-0">
+  <img
+    src={imageUrl}
+    alt={`Imagen del artista ${artistName}`}
+    height="100%"
+    width="35%"
+    class="object-cover"
+  />
+  <section class="flex flex-col px-4">
+    <h5 class="uppercase text-secondary font-medium">{artistName}</h5>
+    <span class="pt-4">{artistInfo}</span>
+  </section>
+</article>
