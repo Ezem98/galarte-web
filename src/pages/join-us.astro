@@ -1,0 +1,28 @@
+---
+import Button from "@components/Button.astro";
+import Footer from "@components/Footer.astro";
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout title="Sumate">
+  <main
+    class="w-2/5 h-screen flex flex-col items-start justify-center px-16 place-items-center"
+  >
+    <h1 class="capitalize text-4xl font-bold pb-4">Sé parte de Galarte 🎨</h1>
+    <p class="text-lg font-normal pb-24">
+      Recibí novedades, promociones y avisos sobre eventos exclusivos en tu
+      correo. ¡No te pierdas nada!
+    </p>
+    <section class="w-full">
+      <input
+        type="email"
+        placeholder="example@example.com"
+        class="text-sm font-semibold border border-primary px-3 py-1 w-1/2"
+      />
+      <Button text="Enviar" />
+    </section>
+  </main>
+  <section class="pb-4">
+    <Footer />
+  </section>
+</Layout>
