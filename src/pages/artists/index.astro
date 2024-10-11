@@ -1,11 +1,82 @@
 ---
+import Footer from "@components/Footer.astro";
 import Layout from "@layouts/Layout.astro";
 ---
 
 <Layout title="Galarte Web">
-  <main class="flex flex-col h-screen">
-    <span>ARTISTAS</span>
-    <!-- <Title /> -->
-    <!-- <ArtWorks /> -->
+  <main
+    class="grid grid-cols-2 grid-rows-[1fr_6vh] max-h-screen overflow-hidden"
+  >
+    <section
+      class="artist flex flex-col items-end gap-2 text-6xl font-bold overflow-auto pt-20 pr-8 border-r row-start-1 row-end-2"
+    >
+      <h3>Ornella Pocetti</h3>
+      <h3>Ornella Pocetti</h3>
+      <h3>Ornella Pocetti</h3>
+      <h3>Ornella Pocetti</h3>
+      <h3>Ornella Pocetti</h3>
+      <h3>Ornella Pocetti</h3>
+      <h3>Ornella Pocetti</h3>
+      <h3>Ornella Pocetti</h3>
+      <h3>Ornella Pocetti</h3>
+      <h3>Ornella Pocetti</h3>
+      <h3>Ornella Pocetti</h3>
+    </section>
+    <section
+      id="artist-image"
+      class="justify-start hidden h-full overflow-auto"
+    >
+      <img
+        src="./images/ornella_pocetti.jpg"
+        alt="Hovered Artist's Image"
+        class="pt-20 pl-8 pb-8"
+        width="60%"
+      />
+    </section>
+    <section class="grid place-content-center col-span-2 border-t">
+      <Footer />
+    </section>
   </main>
 </Layout>
+
+<style>
+  .artist {
+    scrollbar-width: none;
+  }
+
+  h3 {
+    color: #000;
+    transition: all 0.2s;
+  }
+
+  h3:hover {
+    color: #ff9100;
+    cursor: pointer;
+    transform: translateX(-5px); /* Equivalente a translateX(10px) */
+    transition: all 0.2s;
+  }
+</style>
+
+<script>
+  function showImage() {
+    const img = document.querySelector<HTMLElement>("#artist-image");
+
+    if (img) img.style.display = "block";
+  }
+
+  function hideImage() {
+    const img = document.querySelector<HTMLElement>("#artist-image");
+    if (img) img.style.display = "none";
+  }
+
+  const h3s = document.querySelectorAll("h3");
+
+  if (h3s)
+    h3s.forEach((h3) => {
+      h3.addEventListener("mouseenter", showImage);
+      h3.addEventListener("mouseleave", hideImage);
+      h3.addEventListener("click", () => {
+        location.href = "/artists/ornella-pocetti"; //generalizar para cada artista
+      });
+    });
+</script>

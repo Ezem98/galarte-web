@@ -1,7 +1,108 @@
 ---
+import Button from "@components/Button.astro";
+import Footer from "@components/Footer.astro";
+import { ARTISTS } from "@const/artists";
+import Layout from "@layouts/Layout.astro";
+
 const { artist } = Astro.params;
+
+const artistInfo = ARTISTS.find((a) => a.id === artist);
 ---
 
-<span>
-  {artist}
-</span>
+<Layout title="Galarte Web">
+  <section class="absolute flex w-fit h-fit top-[50%] left-[21rem]">
+    <h1 class="relative text-9xl text-primary tracking-widest top-2">
+      {artistInfo?.name}
+    </h1>
+    <h1 class="absolute text-9xl text-secondary tracking-widest">
+      {artistInfo?.name}
+    </h1>
+  </section>
+  <main class="grid grid-cols-[30%_1fr] grid-rows-[1fr_6vh] h-screen">
+    <section class="flex justify-end h-full border-r">
+      <img
+        src=`/images/${artistInfo?.image}`
+        alt="Hovered Artist's Image"
+        class="p-8"
+        width="100%"
+      />
+    </section>
+    <section class="grid grid-rows-[1fr_35%]">
+      <section class="grid grid-cols-[15%_1fr]">
+        <section class="flex flex-col gap-y-4 p-8">
+          <article class="flex flex-col uppercase text-lg">
+            <span>nacionalidad</span>
+            <span>{artistInfo?.nationality}</span>
+          </article>
+          <article class="flex flex-col uppercase text-lg">
+            <span>años</span>
+            <span>{artistInfo?.age}</span>
+          </article>
+          <article class="flex flex-col uppercase text-lg">
+            <span>disciplina</span>
+            <span>{artistInfo?.discipline}</span>
+          </article>
+        </section>
+        <p
+          set:html={artistInfo?.biography}
+          class="pt-8 w-2/3 text-justify text-xl leading-8"
+        />
+      </section>
+      <section class="flex border-t">
+        <article class="grid grid-cols-2 p-4 overflow-y-hidden">
+          <img
+            src="/images/ornella_pocetti_1.jpg"
+            alt=`Obra de ${artistInfo?.name}`
+            height="100%"
+            object-fit="cover"
+          />
+          <section
+            class="relative grid place-items-center uppercase text-md tracking-widest"
+          >
+            <span>Paloma-rec-bd</span>
+            <Button text="Ver más" className="absolute bottom-2 right-8" />
+          </section>
+        </article>
+        <article class="grid grid-cols-2 p-4 overflow-y-hidden">
+          <img
+            src="/images/ornella_pocetti_1.jpg"
+            alt=`Obra de ${artistInfo?.name}`
+            height="100%"
+            aspect-ratio="16/9"
+            object-fit="cover"
+          />
+          <section
+            class="relative grid place-items-center uppercase text-md tracking-widest"
+          >
+            <span>Paloma-rec-bd</span>
+            <Button text="Ver más" className="absolute bottom-2 right-8" />
+          </section>
+        </article>
+        <article class="grid grid-cols-2 p-4 overflow-y-hidden">
+          <img
+            src="/images/ornella_pocetti_1.jpg"
+            alt=`Obra de ${artistInfo?.name}`
+            height="100%"
+            aspect-ratio="16/9"
+            object-fit="cover"
+          />
+          <section
+            class="relative grid place-items-center uppercase text-md tracking-widest"
+          >
+            <span>Paloma-rec-bd</span>
+            <Button text="Ver más" className="absolute bottom-2 right-8" />
+          </section>
+        </article>
+      </section>
+    </section>
+    <section class="grid place-content-center col-span-2 border-t">
+      <Footer />
+    </section>
+  </main>
+</Layout>
+
+<style>
+  p {
+    font-family: "BankPrinter", sans-serif;
+  }
+</style>
