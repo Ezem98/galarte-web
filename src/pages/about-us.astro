@@ -1,12 +1,26 @@
 ---
+import ArtistCard from "@components/ArtistCard.astro";
 import Footer from "@components/Footer.astro";
+import { ABOUT_US } from "@const/about-us";
 import Layout from "@layouts/Layout.astro";
-import ArtistCard from "../components/ArtistCard.astro";
 ---
 
 <Layout title="Galarte Web">
-  <main class="grid place-items-center h-screen">
-    <p class="w-1/2 text-justify">
+  <main
+    class="flex flex-col md:grid md:place-items-center h-screen w-full overflow-y-auto"
+  >
+    <h4 class="w-full p-6 text-3xl font-bold md:hidden">¿Quiénes somos?</h4>
+    {
+      ABOUT_US.map((block) => (
+        <p
+          class="w-full px-6 pb-2 text-justify md:hidden"
+          id={`paragraph-${block.id}`}
+        >
+          {block.paragraph}
+        </p>
+      ))
+    }
+    <p class="hidden md:block w-1/2 text-justify">
       Galarte es una galería de arte contemporáneo online. Nuestro objetivo es
       brindar apoyo integral a los artistas, guiándolos en la venta y
       divulgación de sus obras. Buscamos ser el nexo entre las creaciones
@@ -35,7 +49,9 @@ import ArtistCard from "../components/ArtistCard.astro";
       deseos se alineen a los nuestros y poder, así, iniciar
       juntos este proceso.
     </p>
-    <section class="grid grid-cols-4">
+    <section
+      class="w-full p-6 pt-0 md:px-0 md:py-0 grid gap-y-4 md:gap-0 md:grid-cols-4"
+    >
       {
         Array.from({ length: 4 }).map((e, i) => {
           return (
