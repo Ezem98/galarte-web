@@ -1,13 +1,15 @@
 ---
 interface Props {
+  id?: string;
   text: string;
   className?: string;
 }
 
-const { text, className } = Astro.props;
+const { text, className, id } = Astro.props;
 ---
 
 <button
+  id={id}
   class=`hover:scale-105 uppercase text-sm font-semibold border border-primary px-3 py-1 ${className}`
   >{text}</button
 >
