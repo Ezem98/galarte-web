@@ -14,15 +14,15 @@ import Layout from "@layouts/Layout.astro";
       <input
         type="text"
         placeholder="Buscar"
-        class="font-medium w-1/6 border-l border-primary box-border mx-4 placeholder:uppercase bg-transparent pl-4 focus:outline-none"
+        class="font-medium w-1/2 md:w-1/6 border-l border-primary bg-light box-border mx-4 placeholder:uppercase bg-transparent pl-4 focus:outline-none"
       />
     </header>
-    <div class="w-full grid grid-cols-4 gap-12 py-6 px-12">
+    <div class="w-full grid md:grid-cols-4 gap-12 py-8 md:py-6 px-12">
       {
         ITEMS.slice(0, 8).map((item) => {
           return (
             <article class="h-[320px] justify-between">
-              <section class="flex justify-between items-start border border-primary p-4">
+              <section class="flex justify-between items-start border border-primary p-4 relative">
                 <small class="text-center">
                   {item.id < 10
                     ? `00${item.id}`
@@ -36,7 +36,7 @@ import Layout from "@layouts/Layout.astro";
                   class="h-72 w-64"
                   style={`view-transition-name: item-${item.id}`}
                 />
-                <button class="uppercase flex border border-primary justify-center items-center px-4 hover: transform: translate-x-1">
+                <button class="absolute bg-light right-4 md:bg-none md:relative uppercase flex border border-primary justify-center items-center px-4 hover: transform: translate-x-1">
                   +
                 </button>
               </section>
