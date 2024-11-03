@@ -1,44 +1,66 @@
-<section class="gallery flex justify-center h-full pt-[2%]">
+<section
+  class="gallery justify-center h-full pt-[2%] flex overflow-x-scroll md:overflow-x-hidden"
+>
   <article
-    class="panel left border-y-2 border-black flex justify-center h-[87%] gap-12 items-center grow z-10 bg-light"
+    class="panel left md:border-y-2 md:border-black hidden md:flex justify-center h-[87%] gap-12 items-center grow z-10 bg-light"
   >
     <img
       src="/images/panel_lateral_1.webp"
       alt=""
-      class="w-2/5 h-3/4 artwork"
+      class="w-2 md:w-2/5 md:h-3/4"
     />
     <img
       src="/images/panel_lateral_2.webp"
       alt=""
-      class="w-2/5 h-3/4 artwork object-cover"
+      class="w-2/5 h-3/4 object-cover"
     />
   </article>
   <article
-    class="flex justify-center items-center w-[65%] h-[87%] border-2 border-black gap-24"
+    class="flex md:justify-center items-center w-full md:w-[67%] h-full md:h-[87%] md:border-2 md:border-black box-border gap-x-4 md:gap-24"
   >
     <img
-      src="/images/panel_central_1.webp"
+      src="/images/panel_lateral_1.webp"
       alt=""
-      class="w-2/5 h-3/4 artwork"
+      class="ml-4 w-5/6 md:w-2/5 h-3/4 md:hidden"
+    />
+    <img
+      src="/images/panel_lateral_1.webp"
+      alt=""
+      class="w-5/6 md:w-2/5 h-3/4 object-cover md:hidden"
     />
     <img
       src="/images/panel_central_1.webp"
       alt=""
-      class="w-2/5 h-3/4 artwork"
+      class="w-5/6 md:w-2/5 h-3/4"
     />
     <img
       src="/images/panel_central_1.webp"
       alt=""
-      class="w-2/5 h-3/4 artwork"
+      class="w-5/6 md:w-2/5 h-3/4"
+    />
+    <img
+      src="/images/panel_central_1.webp"
+      alt=""
+      class="w-5/6 md:w-2/5 h-3/4"
+    />
+    <img
+      src="/images/panel_lateral_1.webp"
+      alt=""
+      class="w-5/6 md:w-2/5 h-3/4 md:hidden"
+    />
+    <img
+      src="/images/panel_lateral_1.webp"
+      alt=""
+      class="pr-4 w-5/6 md:w-2/5 h-3/4 md:hidden"
     />
   </article>
   <article
-    class="panel right border-y-2 border-black flex justify-center h-[87%] gap-12 items-center grow z-10 bg-light"
+    class="panel right md:border-y-2 md:border-black hidden md:flex justify-center h-[87%] gap-12 items-center grow z-10 bg-light"
   >
     <img
       src="/images/panel_lateral_2.webp"
       alt=""
-      class="w-2/5 h-3/4 artwork object-cover"
+      class="w-2/5 h-3/4 object-cover"
     />
     <img
       src="/images/panel_lateral_1.webp"
@@ -50,7 +72,6 @@
 
 <style>
   .gallery {
-    display: flex;
     perspective: 1500px; /* Ajusta la perspectiva para controlar la profundidad */
   }
 
@@ -76,5 +97,15 @@
     cursor: pointer;
     transform: scale(1.05);
     transition: 0.5s ease all;
+  }
+
+  @media screen and (max-width: 768px) {
+    .gallery {
+      perspective: none;
+    }
+
+    .panel {
+      transform: none;
+    }
   }
 </style>
