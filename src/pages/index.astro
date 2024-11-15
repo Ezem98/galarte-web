@@ -4,11 +4,8 @@ import Footer from "@components/Footer.astro";
 import Layout from "@layouts/Layout.astro";
 ---
 
-<Layout title="Galarte Web">
-  <main class="flex flex-col h-screen">
-    <Content />
-    <Footer className="border-t-0" />
-    <!-- <Title /> -->
-    <!-- <ArtWorks /> -->
-  </main>
+<Layout title="Galarte Web" footerWithoutBorder>
+  <Content />
+  <!-- <Title /> -->
+  <!-- <ArtWorks /> -->
 </Layout>

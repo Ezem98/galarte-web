@@ -14,7 +14,7 @@ if (!itemInfo) {
 ---
 
 <Layout title={`${itemInfo.name}`}>
-  <main class="flex flex-col w-full h-screen overflow-y-auto">
+  <section class="flex flex-col w-full overflow-y-auto">
     <section
       class="grid md:grid-cols-2 grid-rows-[1fr_auto] h-full place-items-center overflow-y-auto"
     >
@@ -135,8 +135,7 @@ if (!itemInfo) {
         </section>
       </article>
     </section>
-    <Footer />
-  </main>
+  </section>
 </Layout>
 
 <style>

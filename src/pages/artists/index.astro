@@ -4,9 +4,11 @@ import Layout from "@layouts/Layout.astro";
 ---
 
 <Layout title="Galarte Web">
-  <main class="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 overflow-y-auto">
+  <section
+    class="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 overflow-hidden"
+  >
     <section
-      class="artist flex flex-col items-center md:items-end gap-2 text-4xl md:text-6xl font-bold overflow-auto py-8 md:p-0 md:pt-20 pr-8 md:border-r md:row-start-1 md:row-end-2"
+      class="artist flex flex-col items-center md:items-end gap-2 text-4xl md:text-6xl font-bold py-8 md:p-0 md:pt-20 pr-8 md:border-r md:row-start-1 md:row-end-2"
     >
       <h3>Ornella Pocetti</h3>
       <h3>Ornella Pocetti</h3>
@@ -18,9 +20,8 @@ import Layout from "@layouts/Layout.astro";
       <h3>Ornella Pocetti</h3>
       <h3>Ornella Pocetti</h3>
       <h3>Ornella Pocetti</h3>
-      <h3>Ornella Pocetti</h3>
     </section>
-    <section class="justify-start h-full overflow-hidden">
+    <section class="justify-start overflow-hidden">
       <img
         id="artist-image"
         src="./images/ornella_pocetti.jpg"
@@ -28,8 +29,7 @@ import Layout from "@layouts/Layout.astro";
         class="md:hidden w-full md:w-3/5 md:pt-20 md:pl-8 md:pb-8 aspect-auto"
       />
     </section>
-    <Footer className="col-span-full" />
-  </main>
+  </section>
 </Layout>
 
 <style>

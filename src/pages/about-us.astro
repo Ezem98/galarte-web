@@ -6,8 +6,8 @@ import Layout from "@layouts/Layout.astro";
 ---
 
 <Layout title="Galarte Web">
-  <main
-    class="flex flex-col md:grid md:grid-rows-[1fr_auto] md:place-items-center h-screen w-full overflow-y-auto"
+  <section
+    class="flex flex-col md:grid md:grid-rows-[1fr_auto] md:place-items-center w-full overflow-y-auto"
   >
     <h4 class="w-full p-6 text-3xl font-bold md:hidden">¿Quiénes somos?</h4>
     {
@@ -64,6 +64,5 @@ import Layout from "@layouts/Layout.astro";
         })
       }
     </section>
-    <Footer className="border-t-0" />
-  </main>
+  </section>
 </Layout>
