@@ -1,12 +1,17 @@
 ---
 import Button from "@components/Button.astro";
-import Footer from "@components/Footer.astro";
-import { ARTISTS } from "@const/artists";
 import Layout from "@layouts/Layout.astro";
+import { API_URL } from "@const/consts";
+import type { ServiceResponse } from "src/types/serviceResponse";
+import type { IArtist } from "src/types/artist";
+import { dateToAge } from "src/utils/functions";
 
-const { artist } = Astro.params;
+const param = Astro.params.artist;
 
-const artistInfo = ARTISTS.find((a) => a.id === artist);
+const response = await fetch(`${API_URL}/artists/${param?.split("-")[2]}`);
+const { data: artist }: ServiceResponse<IArtist> = await response.json();
+
+console.log({ artist });
 ---
 
 <Layout title="Galarte Web">
@@ -16,10 +21,10 @@ const artistInfo = ARTISTS.find((a) => a.id === artist);
     <h1
       class="relative text-4xl md:text-9xl text-primary tracking-widest top-[3px] md:top-2"
     >
-      {artistInfo?.name}
+      {`${artist?.name} ${artist?.lastname}`}
     </h1>
     <h1 class="absolute text-4xl md:text-9xl text-secondary tracking-widest">
-      {artistInfo?.name}
+      {`${artist?.name} ${artist?.lastname}`}
     </h1>
   </section>
   <main
@@ -27,51 +32,49 @@ const artistInfo = ARTISTS.find((a) => a.id === artist);
   >
     <section class="flex justify-end h-full border-r">
       <img
-        src=`/images/${artistInfo?.image}`
+        src={artist?.image}
         alt="Hovered Artist's Image"
-        class="md:p-8 w-full"
+        class="md:p-8 w-full aspect-square object-cover"
       />
     </section>
-    <section class="grid md:grid-rows-[1fr_35%]">
+    <section class="grid md:grid-rows-[1fr]">
       <section class="grid md:grid-cols-[15%_1fr]">
         <section class="grid grid-cols-3 md:flex md:flex-col gap-4 p-4 md:p-8">
           <article
             class="flex flex-col items-center md:items-start uppercase text-lg"
           >
             <span class="font-semibold md:font-normal">nacionalidad</span>
-            <span class="text-center md:text-left"
-              >{artistInfo?.nationality}</span
-            >
+            <span class="text-center md:text-left">{artist?.nationality}</span>
           </article>
           <article
             class="flex flex-col items-center md:items-start uppercase text-lg"
           >
             <span class="font-semibold md:font-normal">años</span>
-            <span class="text-center md:text-left">{artistInfo?.age}</span>
+            <span class="text-center md:text-left"
+              >{dateToAge(artist?.dateOfBirth)}</span
+            >
           </article>
           <article
             class="flex flex-col items-center md:items-start uppercase text-lg"
           >
             <span class="font-semibold md:font-normal">disciplina</span>
-            <span class="text-center md:text-left"
-              >{artistInfo?.discipline}</span
-            >
+            <span class="text-center md:text-left">{artist?.technique}</span>
           </article>
         </section>
         <section class="md:hidden flex justify-center relative">
           <h1
             class="relative text-4xl md:text-9xl text-primary tracking-widest top-[3px] md:top-2"
           >
-            {artistInfo?.name}
+            {artist?.name}
           </h1>
           <h1
             class="absolute text-4xl md:text-9xl text-secondary tracking-widest"
           >
-            {artistInfo?.name}
+            {artist?.name}
           </h1>
         </section>
         <p
-          set:html={artistInfo?.biography}
+          set:html={artist?.biography}
           class="px-4 md:px-0 pt-8 w-full md:w-2/3 text-justify text-xl leading-8"
         />
       </section>
@@ -79,7 +82,7 @@ const artistInfo = ARTISTS.find((a) => a.id === artist);
         <article class="grid grid-cols-2 p-4 overflow-y-hidden">
           <img
             src="/images/ornella_pocetti_1.jpg"
-            alt=`Obra de ${artistInfo?.name}`
+            alt=`Obra de ${artist?.name}`
             height="100%"
             object-fit="cover"
           />
@@ -97,7 +100,7 @@ const artistInfo = ARTISTS.find((a) => a.id === artist);
         <article class="grid grid-cols-2 p-4 overflow-y-hidden">
           <img
             src="/images/ornella_pocetti_1.jpg"
-            alt=`Obra de ${artistInfo?.name}`
+            alt=`Obra de ${artist?.name}`
             height="100%"
             aspect-ratio="16/9"
             object-fit="cover"
@@ -112,7 +115,7 @@ const artistInfo = ARTISTS.find((a) => a.id === artist);
         <article class="grid grid-cols-2 p-4 overflow-y-hidden">
           <img
             src="/images/ornella_pocetti_1.jpg"
-            alt=`Obra de ${artistInfo?.name}`
+            alt=`Obra de ${artist?.name}`
             height="100%"
             aspect-ratio="16/9"
             object-fit="cover"
