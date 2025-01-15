@@ -1,0 +1,47 @@
+---
+import { type IArtwork } from "../types/artwork";
+import Button from "./Button.astro";
+
+interface Props {
+  artwork: IArtwork;
+}
+
+const { artwork } = Astro.props;
+---
+
+<article class="h-[320px] justify-between">
+  <section
+    class="flex justify-between items-start border border-primary p-4 relative"
+  >
+    <small class="text-center">
+      {
+        artwork.id < 10
+          ? `00${artwork.id}`
+          : artwork.id < 100
+            ? `0${artwork.id}`
+            : `${artwork.id}`
+      }
+    </small>
+    <img
+      src={artwork.image}
+      alt="artist"
+      class="h-72 w-64 aspect-square object-cover"
+      style={`view-transition-name: item-${artwork.id}`}
+    />
+    <button
+      class="invisible absolute bg-light right-4 md:bg-none md:relative uppercase flex border border-primary justify-center items-center px-4 hover: transform: translate-x-1"
+    >
+      +
+    </button>
+    <!-- <Button text="+" /> -->
+  </section>
+  <section class="flex justify-between">
+    <h4 class="uppercase text-lg font-medium">{artwork.name}</h4>
+    <a
+      href={`/shop/${artwork.id}`}
+      class="uppercase flex border border-t-0 border-primary text-xs justify-center items-center px-4"
+    >
+      Ver más
+    </a>
+  </section>
+</article>

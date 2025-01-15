@@ -1,16 +1,22 @@
 ---
 import Button from "@components/Button.astro";
-import Footer from "@components/Footer.astro";
-import { ITEMS, type Item } from "@const/items";
+import { API_URL } from "@const/consts";
 import Layout from "@layouts/Layout.astro";
+import type { IArtist } from "../../types/artist";
+import type { IArtwork } from "../../types/artwork";
+import type { ServiceResponse } from "../../types/serviceResponse";
 
 const { item } = Astro.params;
 
-const itemInfo = ITEMS.find((i: Item) => i.id == parseInt(item ?? ""));
+const responseArtwork = await fetch(`${API_URL}/artworks/${item}`);
+const { data: itemInfo }: ServiceResponse<IArtwork> =
+  await responseArtwork.json();
 
 if (!itemInfo) {
   return Astro.redirect("/404");
 }
+const responseArtist = await fetch(`${API_URL}/artists/${itemInfo.artistId}`);
+const { data: artist }: ServiceResponse<IArtist> = await responseArtist.json();
 ---
 
 <Layout title={`${itemInfo.name}`}>
@@ -25,14 +31,14 @@ if (!itemInfo) {
           >{"<"}</a
         >
         <img
-          src="/images/panel_central_1.webp"
+          src={itemInfo.image}
           alt="artist"
-          class="w-full md:w-9/12 md:my-4 relative column-span-1 row-span-1"
+          class="w-full md:w-9/12 md:my-4 relative column-span-1 row-span-1 aspect-square object-cover"
           style={`view-transition-name: item-${itemInfo.id}`}
         />
       </section>
       <article
-        class="flex flex-col justify-between border-l border-primary w-full h-full py-8 px-4"
+        class="flex flex-col justify-start border-l border-primary w-full h-full py-8 px-4"
       >
         <div>
           <section class="flex flex-col w-full items-start">
@@ -40,17 +46,17 @@ if (!itemInfo) {
               {itemInfo.name}
             </h2>
             <small class="text-lg text-center uppercase"
-              >{itemInfo.author}</small
+              >{artist.name} {artist.lastname}</small
             >
           </section>
           <h1 class="text-start text-5xl mt-8 text-secondary font-bold">
-            ${itemInfo.price.toFixed(2)}
+            U$D {itemInfo.price.toFixed(2)}
           </h1>
           <small class="uppercase mt-4">Pagá en 3 y 6 cuotas sin interés</small>
           <section class="flex flex-col">
             <div class="flex w-full md:w-2/5 justify-between mt-6">
               <section class="flex h-8 w-fit justify-start">
-                <button
+                {itemInfo.isUnique === 0 ? <button
                   class="h-full px-3 py-1 bg-primary text-light text-balance"
                   >-</button
                 >
@@ -60,16 +66,16 @@ if (!itemInfo) {
                 >
                 <button class="px-3 py-1 bg-primary text-light text-balance"
                   >+</button
-                >
+                > : <span class="h-full text-balance text-lg">Obra Única</span>}
               </section>
-              <Button text="Agregar al carrito" />
+              <Button text="quiero comprar" id="buy-button" />
             </div>
             <div class="flex w-full md:w-2/5 mt-2 justify-end">
-              <button class="underline">Ver carrito</button>
+              <button class="invisible underline">Ver carrito</button>
             </div>
           </section>
         </div>
-        <section class="grid md:grid-cols-[20%_1fr] mt-4 md:mt-0">
+        <section class="grid md:grid-cols-[20%_1fr] mt-4 md:mt-16">
           <section class="h-full w-full">
             <ul
               class="grid grid-cols-3 md:flex md:flex-col gap-y-4 uppercase text-sm"
@@ -80,7 +86,10 @@ if (!itemInfo) {
               </li>
               <li class="flex flex-col">
                 <span>Dimensiones:</span>
-                <span>{itemInfo.size.height} x {itemInfo.size.width} cm</span>
+                <span
+                  >{itemInfo.height} x {itemInfo.width}
+                  {`${itemInfo.length ? "x " + itemInfo.length : ""}`} cm</span
+                >
               </li>
               <li class="flex flex-col">
                 <span>Año:</span>
@@ -88,11 +97,11 @@ if (!itemInfo) {
               </li>
               <li class="flex flex-col">
                 <span>Edición:</span>
-                <span>{itemInfo.edition}</span>
+                <span>{itemInfo.serialNumber}</span>
               </li>
               <li class="flex flex-col">
                 <span>Firma:</span>
-                <span>{itemInfo.signature}</span>
+                <span>{itemInfo.code}</span>
               </li>
               <li class="flex flex-col">
                 <span>Enmarcado:</span>
@@ -110,26 +119,9 @@ if (!itemInfo) {
             </h4>
             <p
               id="about-author"
-              class="text-justify w-full md:w-5/6 tracking-wide leading-relaxed"
+              class="text-justify w-full md:w-5/6 tracking-wide leading-relaxed md:max-h-80 md:overflow-y-auto"
             >
-              Nació en Buenos Aires, en 1990. Su investigación artística se
-              nutre de la conexión con la naturaleza y la espiritualidad,
-              influenciada por su crianza en las afueras de Buenos Aires y un
-              interés por las filosofías orientales, el esoterismo, la
-              astrología, las cosmovisiones indígenas y las prácticas
-              espirituales como la meditación y el yoga. Ha participado en
-              diversas muestras individuales y colectivas, explorando temáticas
-              como el misticismo, las fuerzas de la naturaleza y la sabiduría
-              vegetal a través del dibujo, el grabado, la cerámica y la
-              instalación. Estudió Artes Visuales en la UMSA, especializándose
-              en grabado y en los talleres Eduardo Stupía, Maricel Nowacki,
-              Andrés Sorbino y Sebastián Bruno, Malena Pizani y Laura Códega. En
-              el 2022 quedó seleccionada en el programa AxA de Fundación El
-              Mirador. Desde el 2012 participa en el mundo de la autoedición,
-              los fanzines y el arte impreso. Entre sus proyectos editoriales se
-              encuentran: "El observador silencioso" (2019) editado por Wai
-              Cómics, "Antes del fuego, el agua" (2019), "El fin del mundo"
-              (2020),
+              {artist.biography}
             </p>
           </section>
         </section>
@@ -141,5 +133,16 @@ if (!itemInfo) {
 <style>
   #about-author {
     font-family: "BankPrinter", sans-serif !important;
+    scrollbar-width: thin;
   }
 </style>
+
+<script>
+  import { WHATSAPP_NUMBER } from "@const/consts";
+
+  const buyButton = document.getElementById("buy-button");
+
+  buyButton?.addEventListener("click", () => {
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}`, "_blank", "noopener");
+  });
+</script>

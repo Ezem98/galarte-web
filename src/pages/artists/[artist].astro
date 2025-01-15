@@ -5,13 +5,23 @@ import { API_URL } from "@const/consts";
 import type { ServiceResponse } from "src/types/serviceResponse";
 import type { IArtist } from "src/types/artist";
 import { dateToAge } from "src/utils/functions";
+import ArtworkCard from "@components/ArtworkCard.astro";
+import type { IArtwork } from "../../types/artwork";
 
 const param = Astro.params.artist;
 
-const response = await fetch(`${API_URL}/artists/${param?.split("-")[2]}`);
-const { data: artist }: ServiceResponse<IArtist> = await response.json();
-
-console.log({ artist });
+const responseArtist = await fetch(
+  `${API_URL}/artists/${param?.split("-")[2]}`
+);
+const { data: artist }: ServiceResponse<IArtist> = await responseArtist.json();
+if (!artist) {
+  return Astro.redirect("/404");
+}
+const responseArtworks = await fetch(
+  `${API_URL}/artworks/artist/${artist.id}?limit=3`
+);
+const { data: artworks }: ServiceResponse<IArtwork[]> =
+  await responseArtworks.json();
 ---
 
 <Layout title="Galarte Web">
@@ -74,67 +84,32 @@ console.log({ artist });
           </h1>
         </section>
         <p
-          set:html={artist?.biography}
-          class="px-4 md:px-0 pt-8 w-full md:w-2/3 text-justify text-xl leading-8"
-        />
+          id="biography"
+          class="px-4 md:px-0 pt-8 w-full md:pr-16 text-justify text-xl leading-8 md:max-h-[30rem] md:overflow-y-auto"
+        >
+          {artist?.biography}
+        </p>
       </section>
-      <section class="flex flex-col md:flex-row border-t">
-        <article class="grid grid-cols-2 p-4 overflow-y-hidden">
-          <img
-            src="/images/ornella_pocetti_1.jpg"
-            alt=`Obra de ${artist?.name}`
-            height="100%"
-            object-fit="cover"
-          />
-          <section
-            class="relative grid place-items-center uppercase text-md tracking-widest"
-          >
-            <span>Paloma-rec-bd</span>
-            <Button
-              id="see-more"
-              text="Ver más"
-              className="absolute bottom-2 right-8"
+      <section
+        class="flex flex-col h-fit md:grid md:grid-flow-col overflow-x-auto border-t"
+      >
+        {
+          artworks.map((artwork) => (
+            <ArtworkCard
+              artistName={`${artist.name} ${artist.lastname}`}
+              artwork={artwork}
             />
-          </section>
-        </article>
-        <article class="grid grid-cols-2 p-4 overflow-y-hidden">
-          <img
-            src="/images/ornella_pocetti_1.jpg"
-            alt=`Obra de ${artist?.name}`
-            height="100%"
-            aspect-ratio="16/9"
-            object-fit="cover"
-          />
-          <section
-            class="relative grid place-items-center uppercase text-md tracking-widest"
-          >
-            <span>Paloma-rec-bd</span>
-            <Button text="Ver más" className="absolute bottom-2 right-8" />
-          </section>
-        </article>
-        <article class="grid grid-cols-2 p-4 overflow-y-hidden">
-          <img
-            src="/images/ornella_pocetti_1.jpg"
-            alt=`Obra de ${artist?.name}`
-            height="100%"
-            aspect-ratio="16/9"
-            object-fit="cover"
-          />
-          <section
-            class="relative grid place-items-center uppercase text-md tracking-widest"
-          >
-            <span>Paloma-rec-bd</span>
-            <Button text="Ver más" className="absolute bottom-2 right-8" />
-          </section>
-        </article>
+          ))
+        }
       </section>
     </section>
   </main>
 </Layout>
 
 <style>
-  p {
+  #biography {
     font-family: "BankPrinter", sans-serif;
+    scrollbar-width: thin;
   }
 </style>
 

@@ -1,6 +1,12 @@
 ---
-import { ITEMS } from "@const/items";
+import Artwork from "@components/Artwork.astro";
+import { API_URL } from "@const/consts";
 import Layout from "@layouts/Layout.astro";
+import { type IArtwork } from "src/types/artwork";
+import { type ServiceResponse } from "src/types/serviceResponse";
+
+const response = await fetch(`${API_URL}/artworks`);
+const { data: artworks }: ServiceResponse<IArtwork[]> = await response.json();
 ---
 
 <Layout title="Galarte Web" withoutFooter>
@@ -17,48 +23,15 @@ import Layout from "@layouts/Layout.astro";
         class="font-medium w-1/2 md:w-1/6 border-l border-primary bg-light box-border mx-4 placeholder:uppercase bg-transparent pl-4 focus:outline-none"
       />
     </header>
-    <div class="w-full grid md:grid-cols-4 gap-12 py-8 md:py-6 px-12">
+    <div
+      class="w-full overflow-y-hidden grid md:grid-cols-4 gap-12 py-8 md:py-6 px-12"
+    >
       {
-        ITEMS.slice(0, 8).map((item) => {
-          return (
-            <article class="h-[320px] justify-between">
-              <section class="flex justify-between items-start border border-primary p-4 relative">
-                <small class="text-center">
-                  {item.id < 10
-                    ? `00${item.id}`
-                    : item.id < 100
-                      ? `0${item.id}`
-                      : `${item.id}`}
-                </small>
-                <img
-                  src="/images/panel_central_1.webp"
-                  alt="artist"
-                  class="h-72 w-64"
-                  style={`view-transition-name: item-${item.id}`}
-                />
-                <button class="absolute bg-light right-4 md:bg-none md:relative uppercase flex border border-primary justify-center items-center px-4 hover: transform: translate-x-1">
-                  +
-                </button>
-              </section>
-              <section class="flex justify-between">
-                <h4 class="uppercase text-lg font-medium">{item.name}</h4>
-                <a
-                  href={`/shop/${item.id}`}
-                  class="uppercase flex border border-t-0 border-primary text-xs justify-center items-center px-4"
-                >
-                  Ver más
-                </a>
-              </section>
-            </article>
-          );
+        artworks.map((artwork) => {
+          return <Artwork artwork={artwork} />;
         })
       }
     </div>
-    <button
-      id="load-more"
-      class="uppercase flex border w-fit h-fit border-primary text-md justify-center items-center px-4 m-4"
-    >
-      Cargar más obras</button
-    >
+    <!-- <Button text="Cargas más obras" className="my-4" /> -->
   </main>
 </Layout>

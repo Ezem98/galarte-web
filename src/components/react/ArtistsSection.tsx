@@ -6,8 +6,10 @@ export const ArtistsSectionComponent: React.FC = () => {
   const [artists, setArtists] = useState<IArtist[]>([]);
   const [artistId, setArtistId] = useState(0);
 
+  const apiURL = import.meta.env.PUBLIC_API_URL;
+
   const handleFetchArtists = async () => {
-    const response = await fetch("http://localhost:1234/artists");
+    const response = await fetch(`${apiURL}/artists`);
     const { data }: ServiceResponse<IArtist[]> = await response.json();
     setArtists(data);
   };
