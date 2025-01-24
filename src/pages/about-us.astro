@@ -1,8 +1,19 @@
 ---
 import ArtistCard from "@components/ArtistCard.astro";
-import Footer from "@components/Footer.astro";
 import { ABOUT_US } from "@const/about-us";
+import { API_URL } from "@const/consts";
 import Layout from "@layouts/Layout.astro";
+import type { IArtist } from "../types/artist";
+import type { ServiceResponse } from "../types/serviceResponse";
+
+const responseArtist = await fetch(`${API_URL}/artists?limit=4`);
+
+const { data: artists }: ServiceResponse<IArtist[]> =
+  await responseArtist.json();
+
+if (!artists) {
+  return Astro.redirect("/404");
+}
 ---
 
 <Layout title="Galarte Web">
@@ -53,12 +64,14 @@ import Layout from "@layouts/Layout.astro";
       class="w-full p-6 pt-0 md:px-0 md:py-0 grid gap-y-4 md:gap-0 md:grid-cols-4"
     >
       {
-        Array.from({ length: 4 }).map((e, i) => {
+        artists.map((artist, i) => {
           return (
             <ArtistCard
-              imageUrl="/images/artist.webp"
-              artistName={`Item ${i + 1}`}
-              artistInfo="En 2023 Lucía Carrera,curiosa, geminiana denacimiento y artista visual de formación, sesumó como quinta socia,conuna mirada renovada y el mismo deseo de promover el arte de nuestro país."
+              imageUrl={artist.image}
+              artistName={artist.name}
+              artistLastname={artist.lastname}
+              artistInfo={artist.biography}
+              artistId={artist.id}
             />
           );
         })

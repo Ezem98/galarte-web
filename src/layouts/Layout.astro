@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from "astro:transitions";
+
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
 import "@fontsource-variable/jetbrains-mono";
@@ -32,6 +34,7 @@ const {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@galarte" />
     <meta name="view-transition" content="same-origin" />
+    <ClientRouter />
   </head>
   <body class="grid grid-rows-[auto_1fr_auto]">
     <Header />

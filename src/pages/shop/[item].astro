@@ -33,7 +33,7 @@ const { data: artist }: ServiceResponse<IArtist> = await responseArtist.json();
         <img
           src={itemInfo.image}
           alt="artist"
-          class="w-full md:w-9/12 md:my-4 relative column-span-1 row-span-1 aspect-square object-cover"
+          class="w-full md:w-9/12 md:my-4 relative column-span-1 row-span-1 aspect-square object-contain"
           style={`view-transition-name: item-${itemInfo.id}`}
         />
       </section>
@@ -105,11 +105,7 @@ const { data: artist }: ServiceResponse<IArtist> = await responseArtist.json();
               </li>
               <li class="flex flex-col">
                 <span>Enmarcado:</span>
-                <span
-                  >{
-                    itemInfo.framed ? "Marco incluido" : "Marco no incluido"
-                  }</span
-                >
+                <span>{itemInfo.framed ? "Marco incluido" : "Marco no incluido"}</span>
               </li>
             </ul>
           </section>

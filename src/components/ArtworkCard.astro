@@ -14,16 +14,14 @@ const { artwork, artistName } = Astro.props;
   <img
     src={artwork.image}
     alt=`Obra de ${artistName}`
-    class="w-full aspect-square object-cover"
+    class="w-full h-64 aspect-auto object-cover"
   />
   <section
-    class="relative grid place-items-center uppercase text-md tracking-widest"
+    class="relative flex flex-col justify-between items-start pl-2 uppercase text-md tracking-widest"
   >
     <span>{artwork.name}</span>
-    <Button
-      id="see-more"
-      text="Ver más"
-      className="absolute bottom-2 right-8"
-    />
+    <a href={`/shop/${artwork.id}`}>
+      <Button id="see-more" text="Ver más" />
+    </a>
   </section>
 </article>

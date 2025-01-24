@@ -1,0 +1,94 @@
+---
+import { API_URL } from "@const/consts";
+import type { IArtist } from "../types/artist";
+import type { ServiceResponse } from "../types/serviceResponse";
+
+const responseArtist = await fetch(`${API_URL}/artists`);
+
+const { data: artists }: ServiceResponse<IArtist[]> =
+  await responseArtist.json();
+
+if (!artists) {
+  return Astro.redirect("/404");
+}
+---
+
+<section class="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 overflow-hidden">
+  <section
+    class="flex flex-col items-center md:items-end gap-2 font-bold py-8 md:p-0 md:pt-20 pr-8 md:border-r md:row-start-1 md:row-end-2"
+  >
+    {
+      artists.map((artist) => (
+        <a
+          href={`/artists/${artist.name.toLowerCase()}-${artist.lastname.toLowerCase()}-${artist.id}`}
+        >
+          <h3
+            data-image={artist.image}
+            class="artist-header cursor-pointer hover:text-secondary transition-all duration-300 ease-in-out text-4xl"
+          >{`${artist.name} ${artist.lastname}`}</h3>
+        </a>
+      ))
+    }
+  </section>
+  <section class="grid place-items-center overflow-hidden max-h-[80%]">
+    <img
+      id="artist-image"
+      transition:name="artist-image"
+      alt="Hovered Artist's Image"
+      class="w-full md:w-3/5 h-64 md:h-full aspect-auto object-cover"
+    />
+  </section>
+</section>
+
+<script>
+  function setupArtistHover() {
+    const artistHeaders = document.querySelectorAll(".artist-header");
+    const artistImage = document.getElementById(
+      "artist-image"
+    ) as HTMLImageElement;
+
+    if (!artistHeaders.length || !artistImage) return;
+
+    // Limpiar cualquier evento anterior para evitar duplicados
+    artistHeaders.forEach((header) => {
+      header.removeEventListener("mouseover", handleMouseOver);
+      header.removeEventListener("mouseleave", handleMouseLeave);
+
+      header.addEventListener("mouseover", handleMouseOver);
+      header.addEventListener("mouseleave", handleMouseLeave);
+    });
+
+    function handleMouseOver(this: HTMLElement) {
+      const imageUrl = this.getAttribute("data-image");
+      artistImage.src = imageUrl ?? ""; // Cambia el src de la imagen
+      artistImage?.parentElement?.classList.remove("invisible"); // Muestra la imagen
+    }
+
+    function handleMouseLeave() {
+      artistImage?.parentElement?.classList.add("invisible"); // Oculta la imagen al salir del hover
+    }
+  }
+
+  // Inicializar eventos y observar cambios en el DOM
+  function initializeHover() {
+    setupArtistHover();
+
+    const observer = new MutationObserver(() => {
+      setupArtistHover(); // Reconfigurar eventos al detectar cambios
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    window.addEventListener("beforeunload", () => {
+      observer.disconnect(); // Limpiar el observer
+    });
+  }
+
+  // Re-inicializar eventos al volver del historial
+  window.addEventListener("pageshow", () => {
+    setupArtistHover();
+  });
+
+  // Ejecutar inicialización
+  document.addEventListener("DOMContentLoaded", initializeHover);
+</script>

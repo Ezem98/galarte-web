@@ -2,21 +2,33 @@
 interface Props {
   imageUrl: string;
   artistName: string;
+  artistLastname: string;
   artistInfo: string;
+  artistId: number;
 }
 
-const { imageUrl, artistName, artistInfo } = Astro.props;
+const { imageUrl, artistName, artistLastname, artistInfo, artistId } =
+  Astro.props;
 ---
 
-<article class="flex md:p-8 border md:border-r-0">
-  <img
-    src={imageUrl}
-    alt={`Imagen del artista ${artistName}`}
-    height="100%"
-    class="w-1/2 md:w-[35%] object-cover"
-  />
-  <section class="flex flex-col p-4 md:p-0 md:px-4">
-    <h5 class="uppercase text-secondary font-medium">{artistName}</h5>
-    <span class="pt-4">{artistInfo}</span>
-  </section>
-</article>
+<a
+  href={`/artists/${artistName.toLowerCase()}-${artistLastname.toLowerCase()}-${artistId}`}
+>
+  <article
+    class="flex h-full md:p-6 border md:border-r-0 md:border-b-0 hover:bg-[#99999950] transition-all duration-300 ease-in-out"
+  >
+    <img
+      src={imageUrl}
+      alt={`Imagen del artista ${artistName} ${artistLastname}`}
+      height="100%"
+      class="w-1/2 md:w-[35%] object-cover"
+      transition:name="artist-image"
+    />
+    <section class="flex flex-col p-4 md:p-0 md:px-4">
+      <h5 class="uppercase text-secondary font-medium">
+        {`${artistName} ${artistLastname}`}
+      </h5>
+      <span class="pt-4 text-ellipsis">{`${artistInfo.slice(0, 100)}...`}</span>
+    </section>
+  </article>
+</a>

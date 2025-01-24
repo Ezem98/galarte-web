@@ -1,0 +1,16 @@
+---
+interface Props {
+  artistImage: string;
+}
+
+const { artistImage } = Astro.props;
+---
+
+<section class="justify-start overflow-hidden">
+  <img
+    transition:name="artist-image"
+    src={artistImage}
+    alt="Hovered Artist's Image"
+    class="w-full md:w-3/5 md:pt-20 md:pl-8 md:pb-8 aspect-auto object-cover"
+  />
+</section>

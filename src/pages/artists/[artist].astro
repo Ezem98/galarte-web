@@ -1,11 +1,10 @@
 ---
-import Button from "@components/Button.astro";
-import Layout from "@layouts/Layout.astro";
-import { API_URL } from "@const/consts";
-import type { ServiceResponse } from "src/types/serviceResponse";
-import type { IArtist } from "src/types/artist";
-import { dateToAge } from "src/utils/functions";
 import ArtworkCard from "@components/ArtworkCard.astro";
+import { API_URL } from "@const/consts";
+import Layout from "@layouts/Layout.astro";
+import type { IArtist } from "src/types/artist";
+import type { ServiceResponse } from "src/types/serviceResponse";
+import { dateToAge } from "src/utils/functions";
 import type { IArtwork } from "../../types/artwork";
 
 const param = Astro.params.artist;
@@ -26,14 +25,16 @@ const { data: artworks }: ServiceResponse<IArtwork[]> =
 
 <Layout title="Galarte Web">
   <section
-    class="absolute hidden md:flex w-fit h-fit top-3/4 md:top-1/2 md:left-[21rem]"
+    class="absolute hidden md:flex w-fit h-fit top-3/4 md:top-1/2 md:left-[21rem] z-10"
   >
     <h1
-      class="relative text-4xl md:text-9xl text-primary tracking-widest top-[3px] md:top-2"
+      class="relative text-4xl md:text-9xl text-light tracking-widest top-[3px] md:top-2 z-20"
     >
       {`${artist?.name} ${artist?.lastname}`}
     </h1>
-    <h1 class="absolute text-4xl md:text-9xl text-secondary tracking-widest">
+    <h1
+      class="absolute text-4xl md:text-9xl text-secondary tracking-widest z-30"
+    >
       {`${artist?.name} ${artist?.lastname}`}
     </h1>
   </section>
@@ -44,6 +45,7 @@ const { data: artworks }: ServiceResponse<IArtwork[]> =
       <img
         src={artist?.image}
         alt="Hovered Artist's Image"
+        transition:name="artist-image"
         class="md:p-8 w-full aspect-square object-cover"
       />
     </section>
@@ -112,9 +114,3 @@ const { data: artworks }: ServiceResponse<IArtwork[]> =
     scrollbar-width: thin;
   }
 </style>
-
-<script>
-  document.querySelector("#see-more")?.addEventListener("click", () => {
-    window.location.href = "/shop/1";
-  });
-</script>
