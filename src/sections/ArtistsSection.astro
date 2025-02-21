@@ -19,14 +19,13 @@ if (!artists) {
   >
     {
       artists.map((artist) => (
-        <a
-          href={`/artists/${artist.name.toLowerCase()}-${artist.lastname.toLowerCase()}-${artist.id}`}
-        >
-          <h3
-            data-image={artist.image}
-            class="artist-header cursor-pointer hover:text-secondary transition-all duration-300 ease-in-out text-4xl"
-          >{`${artist.name} ${artist.lastname}`}</h3>
-        </a>
+        <h3
+          data-image={artist.image}
+          data-name={artist.name}
+          data-lastname={artist.lastname}
+          data-id={artist.id}
+          class="artist-header cursor-pointer hover:text-secondary transition-all duration-300 ease-in-out text-4xl"
+        >{`${artist.name} ${artist.lastname}`}</h3>
       ))
     }
   </section>
@@ -53,9 +52,11 @@ if (!artists) {
     artistHeaders.forEach((header) => {
       header.removeEventListener("mouseover", handleMouseOver);
       header.removeEventListener("mouseleave", handleMouseLeave);
+      header.removeEventListener("click", navigateToArtistPage);
 
       header.addEventListener("mouseover", handleMouseOver);
       header.addEventListener("mouseleave", handleMouseLeave);
+      header.addEventListener("click", navigateToArtistPage);
     });
 
     function handleMouseOver(this: HTMLElement) {
@@ -67,28 +68,14 @@ if (!artists) {
     function handleMouseLeave() {
       artistImage?.parentElement?.classList.add("invisible"); // Oculta la imagen al salir del hover
     }
+
+    function navigateToArtistPage(this: HTMLElement) {
+      const name = this.getAttribute("data-name") ?? "";
+      const lastname = this.getAttribute("data-lastname") ?? "";
+      const id = this.getAttribute("data-id") ?? "";
+      window.location.href = `/artists/${name.toLowerCase()}-${lastname.toLowerCase()}-${id}`;
+    }
   }
 
-  // Inicializar eventos y observar cambios en el DOM
-  function initializeHover() {
-    setupArtistHover();
-
-    const observer = new MutationObserver(() => {
-      setupArtistHover(); // Reconfigurar eventos al detectar cambios
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    window.addEventListener("beforeunload", () => {
-      observer.disconnect(); // Limpiar el observer
-    });
-  }
-
-  // Re-inicializar eventos al volver del historial
-  window.addEventListener("pageshow", () => {
-    setupArtistHover();
-  });
-
-  // Ejecutar inicialización
-  document.addEventListener("DOMContentLoaded", initializeHover);
+  setupArtistHover();
 </script>
