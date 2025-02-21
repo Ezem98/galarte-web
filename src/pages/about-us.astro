@@ -1,6 +1,6 @@
 ---
 import ArtistCard from "@components/ArtistCard.astro";
-import { ABOUT_US } from "@const/about-us";
+import { ABOUT_US, ABOUT_US_MOBILE } from "@const/about-us";
 import { API_URL } from "@const/consts";
 import Layout from "@layouts/Layout.astro";
 import type { IArtist } from "../types/artist";
@@ -11,18 +11,18 @@ const responseArtist = await fetch(`${API_URL}/artists?limit=4`);
 const { data: artists }: ServiceResponse<IArtist[]> =
   await responseArtist.json();
 
-if (!artists) {
-  return Astro.redirect("/404");
-}
+if (!artists) return Astro.redirect("/404");
 ---
 
 <Layout title="Galarte Web">
-  <section
+  <main
     class="flex flex-col md:grid md:grid-rows-[1fr_auto] md:place-items-center w-full overflow-y-auto"
   >
-    <h4 class="w-full p-6 text-3xl font-bold md:hidden">¿Quiénes somos?</h4>
+    <h4 class="w-full md:w-1/2 p-6 md:p-0 text-3xl font-bold">
+      ¿Quiénes somos?
+    </h4>
     {
-      ABOUT_US.map((block) => (
+      ABOUT_US_MOBILE.map((block) => (
         <p
           class="w-full px-6 pb-2 text-justify md:hidden"
           id={`paragraph-${block.id}`}
@@ -31,35 +31,16 @@ if (!artists) {
         </p>
       ))
     }
-    <p class="hidden md:block w-1/2 text-justify">
-      Galarte es una galería de arte contemporáneo online. Nuestro objetivo es
-      brindar apoyo integral a los artistas, guiándolos en la venta y
-      divulgación de sus obras. Buscamos ser el nexo entre las creaciones
-      artísticas y el consumidor de arte, facilitando que cada obra llegue a los
-      posibles y diversos públicos interesados. Buscamos piezas en diferentes
-      formatos y técnicas: desde pinturas, fotografías, grabados, ilustraciones
-      y esculturas hasta objetos útiles y accesorios atemporales. Valoramos el
-      buen diseño y la creatividad, y estamos abiertos a explorar nuevas
-      técnicas que enriquezcan nuestro catálogo. Creemos en el poder del arte
-      para transformar espacios y nos enfocamos en la venta de obras que los
-      embellecen. Seleccionamos piezas que transforman cualquier ambiente en un
-      lugar especial. Nos proponemos vincular el arte con lo doméstico y lo
-      cotidiano. Galarte surge de la experiencia de una de nuestras socias,
-      quien comprendió la dificultad de equilibrar la creación artística con la
-      venta. Observamos que muchos artistas no tienen el tiempo ni las
-      habilidades necesarias para vender su arte, lo que puede convertirse en un
-      obstáculo significativo. Nuestro propósito es eliminar esta barrera,
-      permitiendo que los artistas se concentren en su trabajo creativo mientras
-      nosotros nos encargamos de la comercialización. Nuestro compromiso desde
-      Galarte es tener una tienda online actualizada, realizar contenido de
-      redes y publicidad digital activa para la difusión y promoción de las
-      obras, la búsqueda constante de nuevos clientes y llevar a cabo la
-      logística de embalaje y envío. Como equipo de la galería aspiramos a que
-      esto no sea sólo una galería; deseamos crecer junto a los artistas en un
-      camino que pueda decantar en muchísimas posibilidades. Esperamos que tus
-      deseos se alineen a los nuestros y poder, así, iniciar
-      juntos este proceso.
-    </p>
+    {
+      ABOUT_US.map((block) => (
+        <p
+          class="hidden md:block w-1/2 text-justify pb-2"
+          id={`paragraph-${block.id}`}
+        >
+          {block.paragraph}
+        </p>
+      ))
+    }
     <section
       class="w-full p-6 pt-0 md:px-0 md:py-0 grid gap-y-4 md:gap-0 md:grid-cols-4"
     >
@@ -77,5 +58,5 @@ if (!artists) {
         })
       }
     </section>
-  </section>
+  </main>
 </Layout>
