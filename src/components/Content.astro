@@ -3,78 +3,99 @@ import { API_URL } from "@const/consts";
 import type { IArtwork } from "../types/artwork";
 import type { ServiceResponse } from "../types/serviceResponse";
 
-const response = await fetch(`${API_URL}/artworks?limit=7`);
+const response = await fetch(`${API_URL}/artworks/random`);
 const { data: artworks }: ServiceResponse<IArtwork[]> = await response.json();
+
+// Clases comunes
+const commonPanelClasses =
+  "md:border-y-2 md:border-black hidden md:flex justify-center h-[87%] gap-12 items-center grow z-10 bg-light";
+const baseImageClasses = "h-full md:h-3/4";
+const mobileImageClasses = "w-5/6 md:w-2/5";
 ---
 
 <section
   class="gallery justify-center items-center md:items-start pt-[2%] flex overflow-x-scroll md:overflow-x-visible"
 >
-  <article
-    class="panel left md:border-y-2 md:border-black hidden md:flex justify-center h-[87%] gap-12 items-center grow z-10 bg-light"
-  >
+  <!-- Panel izquierdo -->
+  <article class:list={["panel left", commonPanelClasses]}>
     <img
+      data-image-id={artworks[0].id}
       src={artworks[0].image}
       alt={`Image of ${artworks[0].name}`}
-      class="w-2 md:w-2/5 h-full md:h-3/4"
+      class:list={[baseImageClasses, "w-2 md:w-2/5"]}
     />
     <img
+      data-image-id={artworks[1].id}
       src={artworks[1].image}
       alt={`Image of ${artworks[1].name}`}
-      class="w-2/5 h-full md:h-3/4 object-cover"
+      class:list={[baseImageClasses, "w-2/5 object-cover"]}
     />
   </article>
+
+  <!-- Panel central -->
   <article
-    class="flex md:justify-center items-center w-full md:w-[67%] h-[87%] md:border-2 md:border-black box-border gap-x-4 md:gap-24"
+    class="flex md:justify-center items-center w-full md:w-[67%] h-[87%] md:border-2 md:border-black box-border gap-x-4 md:gap-24 overflow-x-hidden"
   >
+    <!-- Imágenes móviles -->
     <img
+      data-image-id={artworks[0].id}
       src={artworks[0].image}
       alt={`Image of ${artworks[0].name}`}
-      class="ml-4 w-5/6 md:w-2/5 h-full md:h-3/4 md:hidden"
+      class:list={[baseImageClasses, mobileImageClasses, "ml-4 md:hidden"]}
     />
     <img
+      data-image-id={artworks[1].id}
       src={artworks[1].image}
       alt={`Image of ${artworks[1].name}`}
-      class="w-5/6 md:w-2/5 h-full md:h-3/4 object-cover md:hidden"
+      class:list={[
+        baseImageClasses,
+        mobileImageClasses,
+        "object-cover md:hidden",
+      ]}
     />
+
+    <!-- Imágenes centrales -->
+    {
+      artworks
+        .slice(2, 5)
+        .map((artwork) => (
+          <img
+            data-image-id={artwork.id}
+            src={artwork.image}
+            alt={`Image of ${artwork.name}`}
+            class:list={[baseImageClasses, mobileImageClasses]}
+          />
+        ))
+    }
+
+    <!-- Imágenes móviles adicionales -->
     <img
-      src={artworks[2].image}
-      alt={`Image of ${artworks[2].name}`}
-      class="w-5/6 md:w-2/5 h-full md:h-3/4"
-    />
-    <img
-      src={artworks[3].image}
-      alt={`Image of ${artworks[3].name}`}
-      class="w-5/6 md:w-2/5 h-full md:h-3/4"
-    />
-    <img
-      src={artworks[4].image}
-      alt={`Image of ${artworks[4].name}`}
-      class="w-5/6 md:w-2/5 h-full md:h-3/4"
-    />
-    <img
+      data-image-id={artworks[5].id}
       src={artworks[5].image}
       alt={`Image of ${artworks[5].name}`}
-      class="w-5/6 md:w-2/5 h-full md:h-3/4 md:hidden"
+      class:list={[baseImageClasses, mobileImageClasses, "md:hidden"]}
     />
     <img
+      data-image-id={artworks[6].id}
       src={artworks[6].image}
       alt={`Image of ${artworks[6].name}`}
-      class="pr-4 w-5/6 md:w-2/5 h-full md:h-3/4 md:hidden"
+      class:list={[baseImageClasses, mobileImageClasses, "pr-4 md:hidden"]}
     />
   </article>
-  <article
-    class="panel right md:border-y-2 md:border-black hidden md:flex justify-center h-[87%] gap-12 items-center grow z-10 bg-light"
-  >
+
+  <!-- Panel derecho -->
+  <article class:list={["panel right", commonPanelClasses]}>
     <img
+      data-image-id={artworks[5].id}
       src={artworks[5].image}
       alt={`Image of ${artworks[5].name}`}
-      class="w-2/5 h-full md:h-3/4 object-cover"
+      class:list={[baseImageClasses, "w-2/5 object-cover"]}
     />
     <img
+      data-image-id={artworks[6].id}
       src={artworks[6].image}
       alt={`Image of ${artworks[6].name}`}
-      class="w-2/5 h-full md:h-3/4 hover:transform:skew-x-0"
+      class:list={[baseImageClasses, "w-2/5"]}
     />
   </article>
 </section>
@@ -118,3 +139,14 @@ const { data: artworks }: ServiceResponse<IArtwork[]> = await response.json();
     }
   }
 </style>
+
+<script>
+  const images = document.querySelectorAll("img");
+
+  images.forEach((image) => {
+    image.addEventListener("click", () => {
+      const imageId = image.getAttribute("data-image-id");
+      window.location.href = `/shop/${imageId}`;
+    });
+  });
+</script>
