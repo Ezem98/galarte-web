@@ -12,7 +12,7 @@ const { artwork } = Astro.props;
   <section
     class="flex justify-between items-start border border-primary p-4 relative"
   >
-    <small class="text-center">
+    <small class="text-center pr-2">
       {
         artwork.id < 10
           ? `00${artwork.id}`
@@ -24,7 +24,7 @@ const { artwork } = Astro.props;
     <img
       src={artwork.image}
       alt="artist"
-      class="h-72 w-64 aspect-square object-cover"
+      class="w-10/12 aspect-square object-cover"
       style={`view-transition-name: item-${artwork.id}`}
     />
     <button
