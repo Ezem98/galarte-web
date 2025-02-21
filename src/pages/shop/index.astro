@@ -5,26 +5,31 @@ import Layout from "@layouts/Layout.astro";
 import { type IArtwork } from "src/types/artwork";
 import { type ServiceResponse } from "src/types/serviceResponse";
 
-const response = await fetch(`${API_URL}/artworks`);
+const search = Astro.url.searchParams.get("search") || "";
+
+const url = search
+  ? `${API_URL}/artworks/search/${search}`
+  : `${API_URL}/artworks`;
+
+const response = await fetch(url);
 const { data: artworks }: ServiceResponse<IArtwork[]> = await response.json();
 ---
 
-<Layout title="Galarte Web" withoutFooter>
-  <main
-    class="bg-light overflow-y-auto flex flex-col justify-between items-center"
-  >
+<Layout title="Galarte Web">
+  <main class="bg-light flex flex-col items-center">
     <header class="border border-t-0 border-primary flex w-full">
       <h3 class="uppercase font-medium text-center flex grow justify-end">
         categorias
       </h3>
       <input
-        type="text"
+        type="search"
+        value={search}
         placeholder="Buscar"
-        class="font-medium w-1/2 md:w-1/6 border-l border-primary bg-light box-border mx-4 placeholder:uppercase bg-transparent pl-4 focus:outline-none"
+        class="search font-medium w-1/2 md:w-1/6 border-l border-primary bg-light box-border mx-4 placeholder:uppercase bg-transparent pl-4 focus:outline-none"
       />
     </header>
     <div
-      class="w-full overflow-y-hidden grid md:grid-cols-4 gap-16 py-8 md:py-6 px-12"
+      class="w-full min-h-screen overflow-y-hidden grid md:grid-cols-4 gap-16 py-8 md:py-6 px-12"
     >
       {
         artworks.map((artwork) => {
@@ -35,3 +40,32 @@ const { data: artworks }: ServiceResponse<IArtwork[]> = await response.json();
     <!-- <Button text="Cargas más obras" className="my-4" /> -->
   </main>
 </Layout>
+
+<script>
+  const searchInput =
+    document.querySelector<HTMLInputElement>("input[type=search]");
+
+  searchInput?.addEventListener("keypress", (e: KeyboardEvent) => {
+    if (e.key !== "Enter") return;
+
+    const target = e.target as HTMLInputElement; // Asegurar que es un input
+    const searchQuery = target.value.trim();
+    const url = new URL(window.location.href);
+
+    if (searchQuery) {
+      url.searchParams.set("search", searchQuery);
+    } else {
+      url.searchParams.delete("search"); // Eliminar el parámetro si está vacío
+    }
+
+    window.location.href = url.toString(); // Redirigir con la nueva URL
+  });
+
+  searchInput?.addEventListener("input", (e: Event) => {
+    const target = e.target as HTMLInputElement;
+
+    if (target.value) return;
+
+    window.location.href = "/shop";
+  });
+</script>

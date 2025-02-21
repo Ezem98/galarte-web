@@ -8,7 +8,7 @@ interface Props {
 const { artwork } = Astro.props;
 ---
 
-<article class="h-[320px] justify-between">
+<article class="h-fit justify-between">
   <section
     class="flex justify-between items-start border border-primary p-4 relative"
   >
@@ -38,7 +38,7 @@ const { artwork } = Astro.props;
     <h4 class="uppercase text-lg font-medium">{artwork.name}</h4>
     <a
       href={`/shop/${artwork.id}`}
-      class="uppercase flex border border-t-0 border-primary text-xs justify-center items-center px-4"
+      class="uppercase flex border min-w-fit h-fit border-t-0 border-primary text-xs justify-center items-center px-4"
     >
       Ver más
     </a>

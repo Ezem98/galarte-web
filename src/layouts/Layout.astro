@@ -9,15 +9,10 @@ import "@fontsource/asul/700.css";
 
 interface Props {
   title: string;
-  withoutFooter?: boolean;
   footerWithoutBorder?: boolean;
 }
 
-const {
-  title,
-  footerWithoutBorder = false,
-  withoutFooter = false,
-} = Astro.props;
+const { title, footerWithoutBorder = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -39,11 +34,11 @@ const {
   <body class="grid grid-rows-[auto_1fr_auto]">
     <Header />
     <slot />
-    {
-      !withoutFooter ? (
-        <Footer className={footerWithoutBorder ? "border-t-0" : ""} />
-      ) : null
-    }
+    <Footer
+      className={`
+        ${footerWithoutBorder ? "border-t-0" : ""}
+        `}
+    />
   </body>
 </html>
 <style is:global>
