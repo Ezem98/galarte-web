@@ -77,12 +77,12 @@ const { data: artworks }: ServiceResponse<IArtwork[]> =
           <h1
             class="relative text-4xl md:text-9xl text-primary tracking-widest top-[3px] md:top-2"
           >
-            {artist?.name}
+            {`${artist?.name} ${artist?.lastname}`}
           </h1>
           <h1
             class="absolute text-4xl md:text-9xl text-secondary tracking-widest"
           >
-            {artist?.name}
+            {`${artist?.name} ${artist?.lastname}`}
           </h1>
         </section>
         <p
